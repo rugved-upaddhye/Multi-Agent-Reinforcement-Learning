@@ -21,7 +21,7 @@ def value_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma=
                     continue
                 v = V[i, j]
                 q_values = []
-                for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0), (0,0)]:  # Right, Left, Down, Up, stay
+                for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0)]:  # Right, Left, Down, Up, stay
                     next_i, next_j = i + action[0], j + action[1]
                     if (next_i, next_j) in walls:
                         next_i, next_j = i, j
@@ -51,9 +51,10 @@ def value_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma=
                 elif not (0 <= next_i < grid_size and 0 <= next_j < grid_size):
                     next_i, next_j = i, j
                 reward = 1 if (next_i, next_j) == goal else 0
+                
                 q_values.append(reward + gamma * V[next_i, next_j])
             policy[i, j] = np.argmax(q_values)
-    
+
     return V, policy
 
 # Policy Iteration
@@ -126,7 +127,8 @@ def visualize_policy(policy, start, goal, in_tunnel, out_tunnel, walls, title):
     U[policy == 1] = -1  # Left
     V[policy == 2] = -1  # Down
     V[policy == 3] = 1  # Up
-    
+    U[policy == 4] = 0
+    V[policy == 4] = 0
     for wall in walls:
         U[wall] = 0
         V[wall] = 0
@@ -166,3 +168,7 @@ print("Value Function (Value Iteration):")
 print(V_vi)
 print("\nValue Function (Policy Iteration):")
 print(V_pi)
+print("\nOptimum policy obtained from policy iteration")
+print(policy_pi)
+print("\nOptimum policy obtained from value iteration")
+print(policy_vi)
