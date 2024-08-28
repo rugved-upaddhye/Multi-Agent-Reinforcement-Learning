@@ -166,11 +166,3 @@ print("Value Function (Value Iteration):")
 print(V_vi)
 print("\nValue Function (Policy Iteration):")
 print(V_pi)
-
-# Compare Policies
-policy_difference = np.sum(policy_vi != policy_pi)
-print(f"\nNumber of states with different policies: {policy_difference}")
-
-# Compare Value Functions
-value_difference = np.max(np.abs(V_vi - V_pi))
-print(f"Maximum difference in state values: {value_difference}")
