@@ -1,16 +1,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Environment Setup
+# Environment
 grid_size = 9
-start = (8, 0)  # Robot starts at the bottom-left
-goal = (0, 8)   # Star is at the top-right
+start = (8, 0)
+goal = (0, 8)
 in_tunnel = (6,2)
 out_tunnel = (2,6)
 walls = {(5,1),(5,2),(5,3),(6,3),(7,3),(0,5),(1,5),(2,5),(3,5),(3,6),(3,7),(3,8)}
 
 # Value Iteration
-def value_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma=0.9, theta=0.0001):
+def value_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma=0.9, theta=0.000001):
     V = np.zeros((grid_size, grid_size))
     
     while True:
@@ -21,7 +21,7 @@ def value_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma=
                     continue
                 v = V[i, j]
                 q_values = []
-                for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0), (0,0)]:  # Right, Left, Down, Up
+                for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0), (0,0)]:  # Right, Left, Down, Up, stay
                     next_i, next_j = i + action[0], j + action[1]
                     if (next_i, next_j) in walls:
                         next_i, next_j = i, j
@@ -42,7 +42,7 @@ def value_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma=
             if (i, j) == goal or (i, j) in walls:
                 continue
             q_values = []
-            for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0)]:  # Right, Left, Down, Up
+            for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0)]:  # Right, Left, Down, Up, stay
                 next_i, next_j = i + action[0], j + action[1]
                 if (next_i, next_j) in walls:
                     next_i, next_j = i, j
@@ -92,7 +92,7 @@ def policy_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma
                     continue
                 old_action = policy[i, j]
                 q_values = []
-                for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0), (0,0)]:  # Right, Left, Down, Up
+                for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0)]:  # Right, Left, Down, Up, stay
                     next_i, next_j = i + action[0], j + action[1]
                     if (next_i, next_j) in walls:
                         next_i, next_j = i, j
