@@ -40,6 +40,7 @@ def value_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma=
     for i in range(grid_size):
         for j in range(grid_size):
             if (i, j) == goal or (i, j) in walls:
+                policy[i, j] = 4
                 continue
             q_values = []
             for action in [(0, 1), (0, -1), (1, 0), (-1, 0), (0,0)]:  # Right, Left, Down, Up, stay
@@ -109,7 +110,7 @@ def policy_iteration(grid_size, start, goal, in_tunnel, out_tunnel, walls, gamma
         
         if policy_stable:
             break
-    
+    policy[goal[0], goal[1]] = 4
     return V, policy
 
 # Visualization Function
